@@ -18,27 +18,28 @@ const slides = [
 	},
 ]
 
-var currentSlideIndex = 0 // la premiere diapositive est la numero 0
+var PremiereSlideIndex = 0 // la premiere diapositive est la numero 0
 
-var leftArrow = document.querySelector(".arrow_left") /* va selectionner l element fleche gauche dans le css */
-var rightArrow = document.querySelector(".arrow_right")/* va selectionner l element fleche droite dans le css */
+const leftArrow = document.querySelector(".arrow_left") /* va selectionner l element fleche gauche dans le css */
+const rightArrow = document.querySelector(".arrow_right")/* va selectionner l element fleche droite dans le css */
 
 leftArrow.addEventListener("click", function () {
 	//diopo actuelle (currentslideindex) sera egale à diapo  -1  car on click sur la fleche de gauche donc en arriere
-	currentSlideIndex = (currentSlideIndex - 1 + slides.length) % slides.length
-	mettreAJourContenuDiapo(currentSlideIndex) // fonction appelee
+	PremiereSlideIndex = (PremiereSlideIndex - 1 + slides.length) % slides.length
+	mettreAJourContenuDiapo(PremiereSlideIndex) // fonction appelee
 })
 
 rightArrow.addEventListener("click", function () {
-	//diopo actuelle (currentslideindex) sera egale à diapo  +1  car on click sur la fleche de droite donc on avance
-	currentSlideIndex = (currentSlideIndex + 1) % slides.length
-	mettreAJourContenuDiapo(currentSlideIndex)
+	//diopo actuelle (PremiereSlideIndex) sera egale à diapo  +1  car on click sur la fleche de droite donc on avance
+	PremiereSlideIndex = (PremiereSlideIndex + 1) % slides.length
+	mettreAJourContenuDiapo(PremiereSlideIndex)
 })
 
 // Récupérez l'élément contenant les points
 const dotsContainer = document.querySelector(".dots") //  on cree une variable qui va selectionner l element css
 
 // Ajoutez un point pour chaque diapositive
+
 slides.forEach((slide, index) => {
 	const dot = document.createElement("div")
 	dot.classList.add("dot")
@@ -47,19 +48,19 @@ slides.forEach((slide, index) => {
 	// Ajoutez un écouteur d'événements pour la navigation au clic sur le point
 	dot.addEventListener("click", () => {
 		mettreAJourContenuDiapo(index)
-		updateDots(index)
+		mettreAjourDots(index)
 	})
 })
 
 // Fonction pour mettre à jour les points lors de la navigation
-function updateDots(currentIndex) {
-	const allDots = document.querySelectorAll(".dot")
+function mettreAjourDots(currentIndex) {
+	const ToutesLesDots = document.querySelectorAll(".dot")
 
-	allDots.forEach((dot, index) => {
-		if (index === currentIndex) {
+	ToutesLesDots.forEach((dot, index) => {
+		if (index === currentIndex) {/* si l index et strictement egal a l index des dots*/
 			dot.classList.add("dot_selected")
 		} else {
-			dot.classList.remove("dot_selected")
+			dot.classList.remove("dot_selected") /* annule la class dot select*/
 		}
 	})
 }
@@ -74,8 +75,9 @@ function mettreAJourContenuDiapo(index) {
 	tagLine.innerHTML = slides[index].tagLine
 
 	// Mettre à jour le point actif
-	updateDots(index)
+	mettreAjourDots(index)
 }
 
 
-mettreAJourContenuDiapo(currentSlideIndex)
+mettreAJourContenuDiapo(PremiereSlideIndex)/* a la fin pour rtre sure que Tous les éléments HTML sont chargés et disponibles pour la manipulation par JavaScript.
+Toutes les fonctions nécessaires ont été définies avant leur appel.*/
